@@ -1,18 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import { company, hasText, property } from "@/content/site";
 import { ImagePlate } from "@/components/ImagePlate";
+import { useI18n } from "@/components/Language";
 import { Value, buttonClass } from "@/components/ui";
 
-const facts = [
-  { label: "Location", value: property.location },
-  { label: "Land area", value: property.landArea },
-  { label: "Property type", value: property.propertyType },
-  { label: "Availability", value: property.availability },
-];
-
 export function Hero() {
+  const { t } = useI18n();
   const hasPhoto = hasText(property.heroImage.src);
   const named = hasText(property.name);
+  const facts = [
+    { label: t.hero.location, value: property.location },
+    { label: t.hero.landArea, value: property.landArea },
+    { label: t.hero.propertyType, value: property.propertyType },
+    { label: t.hero.availability, value: property.availability },
+  ];
 
   return (
     <section id="top" className="relative flex min-h-[100svh] flex-col bg-charcoal text-ivory">
@@ -20,7 +23,7 @@ export function Hero() {
         <>
           <Image
             src={property.heroImage.src}
-            alt={property.heroImage.alt || "Photograph of the property"}
+            alt={property.heroImage.alt || t.hero.photoTitle}
             fill
             priority
             sizes="100vw"
@@ -43,19 +46,19 @@ export function Hero() {
                   : "max-w-[16ch] text-[clamp(2.6rem,5.4vw,4.8rem)]"
               }`}
             >
-              {named ? property.name : property.tagline}
+              {named ? property.name : t.hero.tagline}
             </h1>
             {named ? (
               <p className="mt-6 max-w-xl font-serif text-2xl font-normal italic leading-snug text-ivory/80 sm:text-3xl">
-                {property.tagline}
+                {t.hero.tagline}
               </p>
             ) : (
               <p className="mt-8 text-sm tracking-wide text-ivory/60">
-                Land name
+                {t.hero.landName}
                 <span className="mx-3 text-ivory/30" aria-hidden="true">
                   /
                 </span>
-                To be announced
+                {t.hero.toBeAnnounced}
               </p>
             )}
 
@@ -68,6 +71,7 @@ export function Hero() {
                   <dd className="mt-1.5 text-base text-ivory">
                     <Value
                       value={fact.value}
+                      fallback={t.pending}
                       pendingClassName="text-ivory/55"
                     />
                   </dd>
@@ -77,10 +81,10 @@ export function Hero() {
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <a href="#contact" className={`${buttonClass("primary")} w-full sm:w-auto`}>
-                Schedule a Visit
+                {t.hero.schedule}
               </a>
               <a href="#property" className={`${buttonClass("secondary-light")} w-full sm:w-auto`}>
-                View Property Details
+                {t.hero.viewDetails}
               </a>
             </div>
           </div>
@@ -88,8 +92,8 @@ export function Hero() {
           {hasPhoto ? null : (
             <div className="lg:col-span-5">
               <ImagePlate
-                title="Property photograph"
-                note="The photograph of this land will be placed here."
+                title={t.hero.photoTitle}
+                note={t.hero.photoNote}
                 display="hero"
                 className="min-h-[380px] sm:min-h-[460px]"
               />
@@ -109,7 +113,7 @@ export function Hero() {
                 {fact.label}
               </dt>
               <dd className="mt-2 text-[0.98rem]">
-                <Value value={fact.value} pendingClassName="text-ivory/55" />
+                <Value value={fact.value} fallback={t.pending} pendingClassName="text-ivory/55" />
               </dd>
             </div>
           ))}

@@ -36,6 +36,27 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+html[data-lang="hi"] body {
+  font-family: var(--font-hindi-sans), sans-serif;
+  line-height: 1.8;
+}
+
+html[data-lang="hi"] .font-serif {
+  font-family: var(--font-hindi-serif), serif;
+  letter-spacing: 0;
+}
+
+html[data-lang="hi"] h1,
+html[data-lang="hi"] h2,
+html[data-lang="hi"] h3 {
+  line-height: 1.28;
+  letter-spacing: 0;
+}
+
+html[data-lang="hi"] .uppercase {
+  letter-spacing: 0.06em;
+}
+
 ::selection {
   background: #3c4634;
   color: #f3efe7;

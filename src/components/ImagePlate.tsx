@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useI18n } from "@/components/Language";
 
 function CropMarks({ light = false }: { light?: boolean }) {
   return (
@@ -18,7 +21,7 @@ function CropMarks({ light = false }: { light?: boolean }) {
 
 export function ImagePlate({
   title,
-  note = "Photograph to be added",
+  note,
   src,
   alt,
   priority = false,
@@ -39,6 +42,7 @@ export function ImagePlate({
   surface?: "stone" | "dark";
   className?: string;
 }) {
+  const { t } = useI18n();
   const hasImage = Boolean(src);
   const surfaceClass = surface === "dark" || display === "hero" ? "bg-[#26241f]" : "bg-stone";
 
@@ -69,10 +73,10 @@ export function ImagePlate({
             <p
               className={`mt-3 max-w-[16ch] font-serif font-medium leading-[1.05] ${display === "hero" ? "text-4xl sm:text-5xl" : "text-2xl"}`}
             >
-              {note}
+              {note ?? t.gallery.toAdd}
             </p>
             {display === "hero" ? (
-              <p className="mt-4 text-sm text-ivory/55">Not a photograph of the property</p>
+              <p className="mt-4 text-sm text-ivory/55">{t.hero.notAPhoto}</p>
             ) : null}
           </div>
         </>

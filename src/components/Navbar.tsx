@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { company, navigation } from "@/content/site";
+import { LanguageButton, useI18n } from "@/components/Language";
 import { buttonClass } from "@/components/ui";
 
 export function Navbar({ overlay = false }: { overlay?: boolean }) {
@@ -49,6 +50,14 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
     return () => observer.disconnect();
   }, [pathname]);
 
+  const { t } = useI18n();
+  const navLabels = [
+    t.nav.property,
+    t.nav.location,
+    t.nav.about,
+    t.nav.documents,
+    t.nav.contact,
+  ];
   const solid = !overlay || scrolled || open;
 
   return (
@@ -64,7 +73,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
           <Link
             href="/#top"
             className="min-w-0 leading-none"
-            aria-label={`${company.legalName}, home`}
+            aria-label={`${company.legalName}, ${t.nav.home}`}
             onClick={() => setOpen(false)}
           >
             <span className="block font-serif text-[1.35rem] tracking-[0.12em]">
@@ -75,22 +84,23 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
-            {navigation.map((item) => (
+          <nav className="hidden items-center gap-8 lg:flex" aria-label={t.nav.primary}>
+            {navigation.map((item, index) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className="text-[0.95rem] text-current/80 transition-colors hover:text-current"
               >
-                {item.label}
+                {navLabels[index]}
               </Link>
             ))}
           </nav>
 
           <div className="flex items-center gap-3">
+            <LanguageButton />
             <div className="hidden sm:block">
               <Link href="/#contact" className={buttonClass("primary")}>
-                Enquire Now
+                {t.nav.enquireNow}
               </Link>
             </div>
             <button
@@ -100,7 +110,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
               aria-controls="mobile-navigation"
               onClick={() => setOpen((value) => !value)}
             >
-              <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+              <span className="sr-only">{open ? t.nav.closeMenu : t.nav.openMenu}</span>
               <span className="relative block h-3 w-5" aria-hidden="true">
                 <span
                   className={`absolute left-0 h-px w-5 bg-current transition-transform ${open ? "top-1.5 rotate-45" : "top-0"}`}
@@ -122,15 +132,15 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
         hidden={!open}
         className="fixed inset-x-0 bottom-0 top-16 z-40 bg-ivory text-charcoal lg:hidden"
       >
-        <nav className="flex h-full flex-col px-6 py-8" aria-label="Mobile">
-          {navigation.map((item) => (
+        <nav className="flex h-full flex-col px-6 py-8" aria-label={t.nav.mobile}>
+          {navigation.map((item, index) => (
             <Link
               key={item.href}
               href={item.href}
               className="border-b border-line py-4 font-serif text-4xl"
               onClick={() => setOpen(false)}
             >
-              {item.label}
+              {navLabels[index]}
             </Link>
           ))}
           <Link
@@ -138,7 +148,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
             className={`${buttonClass("primary")} mt-8`}
             onClick={() => setOpen(false)}
           >
-            Enquire Now
+            {t.nav.enquireNow}
           </Link>
         </nav>
       </div>
@@ -149,7 +159,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
         }`}
       >
         <Link href="/#contact" className={`${buttonClass("primary")} w-full`}>
-          Enquire
+          {t.nav.enquire}
         </Link>
       </div>
     </>

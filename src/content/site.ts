@@ -312,12 +312,14 @@ export function pageDescription(): string {
   return `${subject} offered by ${company.legalName}, a private limited company with its registered office in Bijnor, Uttar Pradesh.${area} Details on this page are limited to confirmed information. The company’s incorporation is not proof of title to the land.`;
 }
 
-export function whatsappHref(): string | null {
+export function whatsappHref(text?: string): string | null {
   const digits = contact.whatsapp.replace(/\D/g, "");
   if (digits.length < 10 || digits.length > 15) return null;
   const name = hasText(property.name) ? property.name.trim() : "the land";
-  const text = `Hello, I would like to enquire about ${name} listed by ${company.legalName}.`;
-  return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`;
+  const message =
+    text?.trim() ||
+    `Hello, I would like to enquire about ${name} listed by ${company.legalName}.`;
+  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }
 
 export function mapEmbedUrl(): string | null {

@@ -1,7 +1,11 @@
-import { copy, directors } from "@/content/site";
+"use client";
+
+import { directors } from "@/content/site";
+import { useI18n } from "@/components/Language";
 import { Container } from "@/components/ui";
 
 export function Directors() {
+  const { t } = useI18n();
   const people = directors.filter((person) => person.name.trim() && person.designation.trim());
 
   return (
@@ -10,7 +14,7 @@ export function Directors() {
         <div className="grid lg:grid-cols-12">
           <div className="lg:col-span-7 lg:col-start-6">
             <h2 id="directors-heading" className="font-serif text-3xl font-medium">
-              {copy.directors.heading}
+              {t.directors.heading}
             </h2>
             {people.length > 0 ? (
               <ul className="mt-6 border-y border-line">
@@ -25,7 +29,7 @@ export function Directors() {
                 ))}
               </ul>
             ) : (
-              <p className="mt-4 max-w-xl text-muted">{copy.directors.empty}</p>
+              <p className="mt-4 max-w-xl text-muted">{t.directors.empty}</p>
             )}
           </div>
         </div>

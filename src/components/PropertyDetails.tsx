@@ -1,8 +1,12 @@
-import { amenities, copy, landFacts } from "@/content/site";
+"use client";
+
+import { amenities, landFacts } from "@/content/site";
+import { useI18n } from "@/components/Language";
 import { Reveal } from "@/components/Reveal";
 import { Container, Eyebrow } from "@/components/ui";
 
 export function PropertyDetails() {
+  const { t } = useI18n();
   const facts = landFacts.filter((fact) => fact.value.trim());
 
   return (
@@ -11,16 +15,16 @@ export function PropertyDetails() {
         <Reveal>
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
-              <Eyebrow>The land</Eyebrow>
+              <Eyebrow>{t.land.eyebrow}</Eyebrow>
               <h2
                 id="land-heading"
                 className="mt-4 font-serif text-5xl font-medium leading-[1.02] tracking-[-0.02em] sm:text-6xl"
               >
-                {copy.land.heading}
+                {t.land.heading}
               </h2>
             </div>
             <div className="lg:col-span-7">
-              <p className="max-w-xl text-ink/85">{copy.land.body}</p>
+              <p className="max-w-xl text-ink/85">{t.land.body}</p>
               {facts.length > 0 ? (
                 <dl className="mt-10">
                   {facts.map((fact) => (
@@ -35,14 +39,12 @@ export function PropertyDetails() {
                   ))}
                 </dl>
               ) : (
-                <p className="mt-8 border-t border-line pt-6 text-muted">
-                  No measurements, frontage, facing, or utility notes have been added yet.
-                </p>
+                <p className="mt-8 border-t border-line pt-6 text-muted">{t.land.empty}</p>
               )}
               {amenities.length > 0 ? (
                 <div className="mt-10 border-t border-line pt-6">
                   <h3 className="text-[0.72rem] uppercase tracking-[0.16em] text-muted">
-                    Noted for this land
+                    {t.land.noted}
                   </h3>
                   <ul className="mt-4 space-y-2">
                     {amenities.map((item) => (
