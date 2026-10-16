@@ -1,6 +1,6 @@
 "use client";
 
-import { photos, property } from "@/content/site";
+import { displayPropertyValue, hasText, photos, property } from "@/content/site";
 import { useI18n } from "@/components/Language";
 import { PlainPhoto } from "@/components/PlainPhoto";
 import { Eyebrow, Value, buttonClass } from "@/components/ui";
@@ -20,14 +20,15 @@ export function PropertyOverview() {
     !property.price.trim() || property.price.trim() === "Price on request"
       ? t.priceOnRequest
       : property.price;
+  const labels = { revealingSoon: t.revealingSoon, plot: t.plot };
   const rows = [
     { label: t.intro.location, value: property.location },
-    { label: t.intro.landArea, value: property.landArea },
-    { label: t.intro.propertyType, value: property.propertyType },
+    { label: t.intro.landArea, value: displayPropertyValue(property.landArea, labels) },
+    { label: t.intro.propertyType, value: displayPropertyValue(property.propertyType, labels) },
     { label: t.intro.plotSize, value: property.plotSize },
     { label: t.intro.status, value: property.availability },
     { label: t.intro.price, value: price },
-  ];
+  ].filter((row) => hasText(row.value));
 
   return (
     <section id="property" className="bg-ivory">
@@ -53,9 +54,8 @@ export function PropertyOverview() {
         </div>
 
         <div className="border-4 border-olive-deep bg-paper p-5 sm:p-7 lg:col-span-7">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b-4 border-gold pb-4">
+          <div className="border-b-4 border-gold pb-4">
             <h3 className="font-serif text-2xl font-bold text-olive-deep">{t.intro.eyebrow}</h3>
-            <p className="bg-cream px-3 py-1 text-sm font-semibold text-charcoal">{t.intro.italicNote}</p>
           </div>
           <dl className="mt-4">
             {rows.map((row, index) => (

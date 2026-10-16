@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { company, propertyDocuments } from "@/content/site";
+import { company, kycForms, propertyDocuments } from "@/content/site";
 import { useI18n } from "@/components/Language";
 import { Eyebrow, buttonClass } from "@/components/ui";
 
@@ -26,8 +26,8 @@ export function DocumentsSection() {
         </h2>
         <p className="mt-4 max-w-3xl text-base leading-relaxed text-ink sm:text-lg">{t.documents.body}</p>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-2">
-          <article className="border-4 border-olive-deep bg-paper">
+        <div className="mt-8 grid items-stretch gap-6 lg:grid-cols-12">
+          <article className="flex flex-col border-4 border-olive-deep bg-paper lg:col-span-7">
             <div className="bg-olive-deep px-5 py-4 text-ivory">
               <p className="text-sm font-semibold text-gold">{t.documents.company}</p>
               <h3 className="mt-1 font-serif text-2xl font-bold">{t.documents.certificate}</h3>
@@ -40,22 +40,22 @@ export function DocumentsSection() {
                 </div>
               ))}
             </dl>
-            <div className="px-5 pb-6">
-              <p className="mt-4 text-base leading-relaxed text-ink">{t.documents.note}</p>
+            <div className="mt-auto px-5 pt-4 pb-6">
+              <p className="text-base leading-relaxed text-ink">{t.documents.note}</p>
               <Link href="/documents/certificate" className={`${buttonClass("primary")} mt-5`}>
                 {t.documents.view}
               </Link>
             </div>
           </article>
 
-          <article className="border-4 border-bronze bg-paper">
-            <div className="bg-bronze px-5 py-4 text-charcoal">
-              <p className="text-sm font-semibold">{t.documents.eyebrow}</p>
-              <h3 className="mt-1 font-serif text-2xl font-bold">{t.documents.propertyDocs}</h3>
-            </div>
-            <div className="px-5 py-5">
-              {papers.length > 0 ? (
-                <ul className="divide-y divide-line border-y border-line">
+          <div className="flex h-full flex-col gap-6 lg:col-span-5">
+            {papers.length > 0 ? (
+              <article className="border-4 border-bronze bg-paper">
+                <div className="bg-bronze px-5 py-4 text-charcoal">
+                  <p className="text-sm font-semibold">{t.documents.eyebrow}</p>
+                  <h3 className="mt-1 font-serif text-2xl font-bold">{t.documents.propertyDocs}</h3>
+                </div>
+                <ul className="divide-y divide-line px-5">
                   {papers.map((item) => (
                     <li key={item.href} className="py-4">
                       <a
@@ -70,11 +70,39 @@ export function DocumentsSection() {
                     </li>
                   ))}
                 </ul>
-              ) : (
-                <p className="text-base leading-relaxed text-ink sm:text-lg">{t.documents.propertyEmpty}</p>
-              )}
-            </div>
-          </article>
+              </article>
+            ) : null}
+
+            <article className="flex h-full flex-1 flex-col border-4 border-olive bg-paper">
+              <div className="bg-olive px-5 py-4 text-white">
+                <p className="text-sm font-semibold text-gold">{t.documents.forms}</p>
+                <h3 className="mt-1 font-serif text-2xl font-bold">{t.documents.formsHeading}</h3>
+              </div>
+              <p className="px-5 pt-5 text-base leading-relaxed text-ink">{t.documents.formsBody}</p>
+              <ul className="flex flex-1 flex-col gap-4 px-5 py-5">
+                {kycForms.map((form) => (
+                  <li
+                    key={form.id}
+                    className="flex flex-1 flex-col justify-between border-l-4 border-bronze bg-ivory p-4"
+                  >
+                    <div>
+                      <h4 className="font-serif text-xl font-bold leading-snug text-olive-deep">
+                        {t.documents.kyc[form.id].title}
+                      </h4>
+                      <p className="mt-2 text-base leading-relaxed text-ink">{t.documents.kyc[form.id].note}</p>
+                    </div>
+                    <a
+                      href={form.href}
+                      download={form.fileName}
+                      className={`${buttonClass("secondary")} mt-4 w-fit`}
+                    >
+                      {t.documents.download}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          </div>
         </div>
       </div>
     </section>

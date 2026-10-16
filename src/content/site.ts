@@ -3,6 +3,8 @@ import approachRoad from "@/assets/plot-2.jpg";
 import aerialPlots from "@/assets/plot-3.jpg";
 import fieldPlots from "@/assets/plot-4.jpg";
 import openPlot from "@/assets/plot-5.jpg";
+import correspondentKyc from "@/assets/docs/cor kyc.jpeg";
+import memberKyc from "@/assets/docs/Member-kyc-form.jpeg";
 
 /**
  * AVENZA REALTECH — site content
@@ -65,12 +67,12 @@ export const property = {
    * Approved line. Replace it here if the wording should change.
    */
   tagline: "Land that gives you room to build what comes next.",
-  /** Full property location. Not the company’s registered office unless they are the same. */
-  location: "",
+  /** City only, until a street address is supplied. */
+  location: "Bijnor",
   /** Example shape once known: "12,000 sq. ft" or "2.5 acres" or "4 bigha". */
-  landArea: "",
+  landArea: "Revealing soon",
   /** Residential, commercial, agricultural, or whatever the records actually say. */
-  propertyType: "",
+  propertyType: "Plot",
   plotSize: "",
   /** Availability or status. Leave empty until it is confirmed. */
   availability: "",
@@ -148,17 +150,16 @@ export type NearbyPlace = {
 
 export const locationInfo = {
   /**
-   * Property address used for the map and the location section.
-   * Leave empty until the plot address is confirmed.
-   * Do not copy the registered office here unless the land is at that address.
+   * Place name shown in the location section.
+   * The map uses coordinates or `mapQuery` only, so a city name is not pinned as the plot.
    */
-  address: "",
+  address: "Bijnor",
   /** Optional. Decimal degrees, for example "29.372". */
   latitude: "",
   longitude: "",
   /**
    * Used for the map if coordinates are not set.
-   * A precise place name or plus code. Do not use a nearby city as a stand-in.
+   * Leave empty while the published place is only the city.
    */
   mapQuery: "",
   nearby: [] as NearbyPlace[],
@@ -178,6 +179,25 @@ export type ListedDocument = {
  * An empty list is correct until files are ready. Do not list a deed that is not on file.
  */
 export const propertyDocuments: ListedDocument[] = [];
+
+/**
+ * Blank KYC forms kept in `src/assets/docs/`.
+ * These are forms to fill in. They are not property papers.
+ */
+export const kycForms = [
+  {
+    id: "correspondent",
+    href: correspondentKyc.src,
+    fileName: "Avenza-Agent-Business-Correspondent-KYC.jpeg",
+  },
+  {
+    id: "member",
+    href: memberKyc.src,
+    fileName: "Avenza-Member-KYC-Form.jpeg",
+  },
+] as const;
+
+export type KycFormId = (typeof kycForms)[number]["id"];
 
 export type Director = {
   name: string;
@@ -200,7 +220,7 @@ export const contact = {
    * Example: "919876543210"
    * Leave empty to hide the WhatsApp button.
    */
-  whatsapp: "",
+  whatsapp: "919286529959",
   /**
    * Optional URL that receives a JSON POST of the enquiry.
    * Leave empty until a real inbox or form service is connected.
@@ -236,14 +256,12 @@ export const copy = {
   },
   land: {
     heading: "More than a piece of land.",
-    body: "Area, frontage, the road that reaches the plot, facing, utilities, and land use belong in this list. A line is added only when that fact has been supplied. Nothing below is inferred from the company’s city of registration.",
+    body: "Area, frontage, the road that reaches the plot, facing, utilities, and land use belong with this land. A line is shown only when that fact has been supplied.",
   },
   location: {
     heading: "Connected to where it matters.",
-    pending:
-      "A map pin, nearby places, and distances will appear here after the property’s location is confirmed. The company’s registered office is in Bijnor. That office is not marked as the land unless the two addresses are the same, which has not been stated.",
-    known:
-      "The location below is the property address supplied for this page. Read it with the papers, and confirm it on a visit.",
+    pending: "The property is in Bijnor.",
+    known: "The property is in Bijnor.",
   },
   matters: {
     heading: "Things that matter when you buy land.",
@@ -251,7 +269,7 @@ export const copy = {
       {
         index: "01",
         title: "Location",
-        body: "Where the land sits is the fact to settle first. The full address has not been published on this page yet. When it is confirmed, it will be written here, and the map will mark that place rather than a nearby town used as a substitute.",
+        body: "The land is in Bijnor, Uttar Pradesh.",
       },
       {
         index: "02",
@@ -308,6 +326,17 @@ export function hasText(value: string | undefined | null): value is string {
   return Boolean(value && value.trim());
 }
 
+/** Maps stored English property phrases to the active language. */
+export function displayPropertyValue(
+  value: string,
+  labels: { revealingSoon: string; plot: string },
+): string {
+  const text = value.trim();
+  if (text === "Revealing soon") return labels.revealingSoon;
+  if (/^plot$/i.test(text)) return labels.plot;
+  return text;
+}
+
 export function pageTitle(): string {
   if (hasText(property.name)) {
     return `${property.name.trim()} | ${company.legalName}`;
@@ -344,11 +373,9 @@ export function mapEmbedUrl(): string | null {
   const lng = locationInfo.longitude.trim();
   const query = hasText(locationInfo.mapQuery)
     ? locationInfo.mapQuery.trim()
-    : hasText(locationInfo.address)
-      ? locationInfo.address.trim()
-      : lat && lng
-        ? `${lat},${lng}`
-        : "";
+    : lat && lng
+      ? `${lat},${lng}`
+      : "";
 
   if (!query) return null;
   return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=15&output=embed`;

@@ -33,43 +33,45 @@ export function LocationSection() {
             <Value value={address} fallback={t.pending} />
           </p>
 
-          <div className="mt-6 border-t-4 border-olive">
-            <h3 className="bg-olive px-4 py-2 text-base font-semibold text-white">{t.location.nearby}</h3>
-            {nearby.length > 0 ? (
-              <ul>
-                {nearby.map((item) => (
-                  <li
-                    key={`${item.name}-${item.detail}`}
-                    className="flex flex-col gap-1 border-b border-line px-4 py-3 sm:flex-row sm:justify-between"
-                  >
-                    <span className="font-semibold">{item.name}</span>
-                    <span className="text-ink">{item.detail}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="px-4 py-4 text-lg font-semibold italic text-bronze-ink">{t.pending}</p>
-            )}
+          {nearby.length > 0 || connectivity.length > 0 ? (
+            <div className="mt-6 border-t-4 border-olive">
+              {nearby.length > 0 ? (
+                <>
+                  <h3 className="bg-olive px-4 py-2 text-base font-semibold text-white">{t.location.nearby}</h3>
+                  <ul>
+                    {nearby.map((item) => (
+                      <li
+                        key={`${item.name}-${item.detail}`}
+                        className="flex flex-col gap-1 border-b border-line px-4 py-3 sm:flex-row sm:justify-between"
+                      >
+                        <span className="font-semibold">{item.name}</span>
+                        <span className="text-ink">{item.detail}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
 
-            <h3 className="bg-bronze px-4 py-2 text-base font-semibold text-charcoal">
-              {t.location.connectivity}
-            </h3>
-            {connectivity.length > 0 ? (
-              <ul>
-                {connectivity.map((item) => (
-                  <li
-                    key={`${item.name}-${item.detail}`}
-                    className="flex flex-col gap-1 border-b border-line px-4 py-3 sm:flex-row sm:justify-between"
-                  >
-                    <span className="font-semibold">{item.name}</span>
-                    <span className="text-ink">{item.detail}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="px-4 py-4 text-lg font-semibold italic text-bronze-ink">{t.pending}</p>
-            )}
-          </div>
+              {connectivity.length > 0 ? (
+                <>
+                  <h3 className="bg-bronze px-4 py-2 text-base font-semibold text-charcoal">
+                    {t.location.connectivity}
+                  </h3>
+                  <ul>
+                    {connectivity.map((item) => (
+                      <li
+                        key={`${item.name}-${item.detail}`}
+                        className="flex flex-col gap-1 border-b border-line px-4 py-3 sm:flex-row sm:justify-between"
+                      >
+                        <span className="font-semibold">{item.name}</span>
+                        <span className="text-ink">{item.detail}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
+            </div>
+          ) : null}
         </div>
 
         <div className="min-h-[420px] border-4 border-olive-deep bg-olive-deep lg:col-span-7">

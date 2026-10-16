@@ -6,6 +6,8 @@ const en = {
   skip: "Skip to content",
   pending: "To be confirmed",
   priceOnRequest: "Price on request",
+  revealingSoon: "Revealing soon",
+  plot: "Plot",
   optional: "Optional",
   nav: {
     property: "Property",
@@ -78,7 +80,7 @@ const en = {
   land: {
     eyebrow: "The land",
     heading: "More than a piece of land.",
-    body: "Area, frontage, the road that reaches the plot, facing, utilities, and land use belong in this list. A line is added only when that fact has been supplied. Nothing below is inferred from the company’s city of registration.",
+    body: "Area, frontage, the road that reaches the plot, facing, utilities, and land use belong with this land. A line is shown only when that fact has been supplied.",
     empty: "No measurements, frontage, facing, or utility notes have been added yet.",
     noted: "Noted for this land",
     specs: {
@@ -96,16 +98,14 @@ const en = {
   location: {
     eyebrow: "Location",
     heading: "Connected to where it matters.",
-    pending:
-      "A map pin, nearby places, and distances will appear here after the property’s location is confirmed. The company’s registered office is in Bijnor. That office is not marked as the land unless the two addresses are the same, which has not been stated.",
-    known:
-      "The location below is the property address supplied for this page. Read it with the papers, and confirm it on a visit.",
+    pending: "The property is in Bijnor.",
+    known: "The property is in Bijnor.",
     propertyLocation: "Property location",
     nearby: "Nearby",
     connectivity: "Connectivity",
     map: "Map",
-    mapTitle: "The map waits for a confirmed address.",
-    mapNote: "No pin is shown, so a nearby city is not mistaken for the plot.",
+    mapTitle: "Bijnor",
+    mapNote: "Uttar Pradesh",
     mapFrame: "Map of the property location",
   },
   matters: {
@@ -115,7 +115,7 @@ const en = {
       {
         index: "01",
         title: "Location",
-        body: "Where the land sits is the fact to settle first. The full address has not been published on this page yet. When it is confirmed, it will be written here, and the map will mark that place rather than a nearby town used as a substitute.",
+        body: "The land is in Bijnor, Uttar Pradesh.",
       },
       {
         index: "02",
@@ -150,6 +150,21 @@ const en = {
     propertyEmpty:
       "No property documents have been placed on this website for public view. On a visit, ask which title, revenue, map, and approval papers can be inspected. Incorporation papers do not replace them.",
     note: "Incorporation can be verified on the Ministry of Corporate Affairs website. The certificate identifies the company. It is not proof of ownership of the land advertised here.",
+    forms: "Forms",
+    formsHeading: "KYC forms",
+    formsBody:
+      "These blank forms can be downloaded and filled in. One is for an agent or business correspondent. The other is for a member.",
+    download: "Download",
+    kyc: {
+      correspondent: {
+        title: "Agent / Business Correspondent KYC",
+        note: "Personal details, address, and the bank account used for commission.",
+      },
+      member: {
+        title: "Member KYC form",
+        note: "Personal details, address, and the bank account used for dividend.",
+      },
+    },
     labels: {
       company: "Company",
       cin: "CIN",
@@ -306,6 +321,8 @@ const hi: typeof en = {
   skip: "सामग्री पर जाएँ",
   pending: "पुष्टि शेष",
   priceOnRequest: "मूल्य अनुरोध पर",
+  revealingSoon: "जल्द बताया जाएगा",
+  plot: "प्लॉट",
   optional: "ऐच्छिक",
   nav: {
     property: "संपत्ति",
@@ -378,7 +395,7 @@ const hi: typeof en = {
   land: {
     eyebrow: "ज़मीन",
     heading: "केवल एक टुकड़ा ज़मीन नहीं।",
-    body: "क्षेत्रफल, फ़्रंटेज, प्लॉट तक पहुँचने वाली सड़क, दिशा, सुविधाएँ और भूमि उपयोग इसी सूची में आते हैं। कोई पंक्ति तभी जुड़ती है जब वह तथ्य दिया गया हो। कंपनी के पंजीकरण वाले शहर से नीचे कुछ भी नहीं निकाला गया है।",
+    body: "क्षेत्रफल, फ़्रंटेज, प्लॉट तक पहुँचने वाली सड़क, दिशा, सुविधाएँ और भूमि उपयोग इसी ज़मीन के साथ आते हैं। कोई पंक्ति तभी दिखती है जब वह तथ्य दिया गया हो।",
     empty: "माप, फ़्रंटेज, दिशा या सुविधाओं का कोई विवरण अभी जोड़ा नहीं गया है।",
     noted: "इस ज़मीन के बारे में दर्ज",
     specs: {
@@ -396,16 +413,14 @@ const hi: typeof en = {
   location: {
     eyebrow: "स्थान",
     heading: "जहाँ ज़रूरत है, वहाँ से जुड़ी।",
-    pending:
-      "संपत्ति का स्थान पुष्ट होने के बाद यहाँ नक्शे की पिन, आस-पास के स्थान और दूरियाँ दिखेंगी। कंपनी का पंजीकृत कार्यालय बिजनौर में है। उसे ज़मीन नहीं माना गया है, जब तक दोनों पते एक ही हों — और ऐसा कहा नहीं गया है।",
-    known:
-      "नीचे दिया स्थान इस पृष्ठ के लिए दिया गया संपत्ति का पता है। इसे कागज़ात के साथ पढ़ें और मुलाकात पर जाँचें।",
+    pending: "यह संपत्ति बिजनौर में है।",
+    known: "यह संपत्ति बिजनौर में है।",
     propertyLocation: "संपत्ति का स्थान",
     nearby: "आस-पास",
     connectivity: "संपर्क मार्ग",
     map: "नक्शा",
-    mapTitle: "नक्शा पते की पुष्टि का इंतज़ार कर रहा है।",
-    mapNote: "कोई पिन नहीं दिखाया गया है, ताकि कोई पास का शहर प्लॉट न समझ लिया जाए।",
+    mapTitle: "बिजनौर",
+    mapNote: "उत्तर प्रदेश",
     mapFrame: "संपत्ति के स्थान का नक्शा",
   },
   matters: {
@@ -415,7 +430,7 @@ const hi: typeof en = {
       {
         index: "01",
         title: "स्थान",
-        body: "ज़मीन कहाँ है, यही पहली बात तय होनी चाहिए। पूरा पता इस पृष्ठ पर अभी प्रकाशित नहीं है। पुष्टि होने पर वह यहीं लिखा जाएगा, और नक्शा उसी जगह को दिखाएगा — किसी पास के शहर को उसके बदले नहीं।",
+        body: "यह ज़मीन बिजनौर, उत्तर प्रदेश में है।",
       },
       {
         index: "02",
@@ -450,6 +465,21 @@ const hi: typeof en = {
     propertyEmpty:
       "इस वेबसाइट पर सार्वजनिक देखने के लिए कोई संपत्ति दस्तावेज़ नहीं रखा गया है। मुलाकात पर पूछें कि स्वामित्व, राजस्व, नक्शा और अनुमति के कौन से कागज़ देखे जा सकते हैं। निगमन के कागज़ उनकी जगह नहीं लेते।",
     note: "निगमन की जाँच कॉर्पोरेट कार्य मंत्रालय की वेबसाइट पर हो सकती है। प्रमाणपत्र कंपनी की पहचान करता है। यह यहाँ बताई गई ज़मीन के स्वामित्व का प्रमाण नहीं है।",
+    forms: "प्रपत्र",
+    formsHeading: "केवाईसी प्रपत्र",
+    formsBody:
+      "ये खाली प्रपत्र डाउनलोड करके भरे जा सकते हैं। एक एजेंट या बिज़नेस कॉरेस्पॉन्डेंट के लिए है। दूसरा सदस्य के लिए है।",
+    download: "डाउनलोड",
+    kyc: {
+      correspondent: {
+        title: "एजेंट / बिज़नेस कॉरेस्पॉन्डेंट केवाईसी",
+        note: "व्यक्तिगत विवरण, पता, और कमीशन के लिए बैंक खाता।",
+      },
+      member: {
+        title: "सदस्य केवाईसी प्रपत्र",
+        note: "व्यक्तिगत विवरण, पता, और लाभांश के लिए बैंक खाता।",
+      },
+    },
     labels: {
       company: "कंपनी",
       cin: "सीआईएन",

@@ -1,6 +1,6 @@
 "use client";
 
-import { company, hasText, property, propertyGallery } from "@/content/site";
+import { company, displayPropertyValue, hasText, property, propertyGallery } from "@/content/site";
 import { useI18n } from "@/components/Language";
 import { PlainPhoto } from "@/components/PlainPhoto";
 import { Value, buttonClass } from "@/components/ui";
@@ -12,10 +12,11 @@ export function Hero() {
     !property.price.trim() || property.price.trim() === "Price on request"
       ? t.priceOnRequest
       : property.price;
+  const labels = { revealingSoon: t.revealingSoon, plot: t.plot };
   const facts = [
     { label: t.hero.location, value: property.location },
-    { label: t.hero.landArea, value: property.landArea },
-    { label: t.hero.propertyType, value: property.propertyType },
+    { label: t.hero.landArea, value: displayPropertyValue(property.landArea, labels) },
+    { label: t.hero.propertyType, value: displayPropertyValue(property.propertyType, labels) },
     { label: t.hero.price, value: price },
   ];
   const companions = propertyGallery.slice(1);

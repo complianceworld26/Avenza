@@ -3,6 +3,7 @@
 import { Footer } from "@/components/Footer";
 import { useI18n } from "@/components/Language";
 import { Navbar } from "@/components/Navbar";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 export function SiteFrame({
   overlay = false,
@@ -24,6 +25,7 @@ export function SiteFrame({
       <Navbar overlay={overlay} />
       <div id="content">{children}</div>
       <Footer />
+      <WhatsAppButton />
     </>
   );
 }
