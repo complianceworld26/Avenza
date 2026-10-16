@@ -80,7 +80,7 @@ export function LanguageButton({ className = "" }: { className?: string }) {
       onClick={toggle}
       aria-pressed={current === "hi"}
       aria-label={t.langAria}
-      className={`inline-flex items-center justify-center border border-current/40 px-3 py-2 text-[0.95rem] leading-none transition-colors hover:border-current ${className}`}
+      className={`inline-flex items-center justify-center border border-current/25 px-2.5 py-1.5 text-sm leading-none transition-colors hover:border-current ${className}`}
     >
       {t.langLabel}
     </button>

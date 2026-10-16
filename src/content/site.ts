@@ -1,3 +1,9 @@
+import markedPlots from "@/assets/plot-1.jpg";
+import approachRoad from "@/assets/plot-2.jpg";
+import aerialPlots from "@/assets/plot-3.jpg";
+import fieldPlots from "@/assets/plot-4.jpg";
+import openPlot from "@/assets/plot-5.jpg";
+
 /**
  * AVENZA REALTECH — site content
  *
@@ -6,8 +12,8 @@
  * “To be confirmed” rather than invent a figure.
  *
  * Do not add PAN, TAN, or any other tax identifier.
- * Do not point images at stock photography of a different place.
- * Photographs belong in `public/images/` and are referenced as `/images/filename.jpg`.
+ * The five plot photographs live in `src/assets/` and are imported at the top of this file.
+ * They are Unsplash library pictures of open land, used as illustration. They are not a survey of one parcel.
  */
 
 export const company = {
@@ -29,6 +35,28 @@ export const company = {
    */
   certificatePdf: "",
 } as const;
+
+/**
+ * Five illustrative land photographs from Unsplash.
+ * Unsplash License: https://unsplash.com/license
+ * plot-1 Qad7evtAV0A · plot-2 e-b6CntFTUs · plot-3 32hGYh_7gn4
+ * plot-4 qD7tpy_VozY · plot-5 hc8VRgDj4Ik
+ */
+export const photos = {
+  plots: { src: markedPlots.src, alt: "Grassed plots laid out along new roads" },
+  road: { src: approachRoad.src, alt: "A narrow road running between open fields toward a town" },
+  aerial: { src: aerialPlots.src, alt: "An aerial view of farmland divided into plots" },
+  fields: { src: fieldPlots.src, alt: "A patchwork of green and brown plots beside a lane" },
+  openPlot: { src: openPlot.src, alt: "An open field with trees along the far edge" },
+} as const;
+
+export const propertyGallery = [
+  { ...photos.plots, caption: "Property" },
+  { ...photos.road, caption: "Road / Approach" },
+  { ...photos.aerial, caption: "Surroundings" },
+  { ...photos.fields, caption: "Nearby Area" },
+  { ...photos.openPlot, caption: "Open plot" },
+] as const;
 
 export const property = {
   /** Published land / project name. Leave empty until confirmed. */
@@ -52,52 +80,13 @@ export const property = {
    */
   price: "Price on request",
   /**
-   * Photograph of this property only.
-   * src example: "/images/land-approach.jpg"
+   * Illustrative land photograph for the hero. Not a survey of this parcel.
    */
   heroImage: {
-    src: "",
-    alt: "",
+    src: photos.plots.src,
+    alt: photos.plots.alt,
   },
 };
-
-export type GalleryImage = {
-  src: string;
-  alt: string;
-  category: string;
-};
-
-/**
- * Replace `src` and `alt` when a real photograph exists.
- * Empty `src` keeps an honest placeholder. Do not use a picture of another site.
- */
-export const gallery: GalleryImage[] = [
-  {
-    src: "",
-    alt: "",
-    category: "Property",
-  },
-  {
-    src: "",
-    alt: "",
-    category: "Road / Approach",
-  },
-  {
-    src: "",
-    alt: "",
-    category: "Surroundings",
-  },
-  {
-    src: "",
-    alt: "",
-    category: "Nearby Area",
-  },
-  {
-    src: "",
-    alt: "",
-    category: "Location",
-  },
-];
 
 export type Fact = {
   label: string;
@@ -119,6 +108,34 @@ export type Fact = {
  * { label: "Boundaries", value: "" },
  */
 export const landFacts: Fact[] = [];
+
+/**
+ * Measurements and records for the land section.
+ * Leave `value` empty until that fact is confirmed. The page shows “To be confirmed”.
+ * Area, plot size, and land use fall back to the matching fields on `property` when those are filled.
+ */
+export const landSpecFields = [
+  { id: "area", value: "" },
+  { id: "dimensions", value: "" },
+  { id: "frontage", value: "" },
+  { id: "approach", value: "" },
+  { id: "facing", value: "" },
+  { id: "use", value: "" },
+  { id: "boundaries", value: "" },
+  { id: "utilities", value: "" },
+  { id: "ownership", value: "" },
+] as const;
+
+export type LandSpecId = (typeof landSpecFields)[number]["id"];
+
+export function landSpecValue(id: LandSpecId): string {
+  const row = landSpecFields.find((item) => item.id === id);
+  if (row && hasText(row.value)) return row.value.trim();
+  if (id === "area" && hasText(property.landArea)) return property.landArea.trim();
+  if (id === "dimensions" && hasText(property.plotSize)) return property.plotSize.trim();
+  if (id === "use" && hasText(property.propertyType)) return property.propertyType.trim();
+  return "";
+}
 
 /** Short notes that are actually known. Leave empty rather than writing amenities that are not on site. */
 export const amenities: string[] = [];

@@ -1,62 +1,89 @@
 "use client";
 
-import { amenities, landFacts } from "@/content/site";
+import { amenities, landFacts, landSpecFields, landSpecValue, photos } from "@/content/site";
 import { useI18n } from "@/components/Language";
-import { Reveal } from "@/components/Reveal";
-import { Container, Eyebrow } from "@/components/ui";
+import { PlainPhoto } from "@/components/PlainPhoto";
+import { Eyebrow, Value } from "@/components/ui";
 
 export function PropertyDetails() {
   const { t } = useI18n();
-  const facts = landFacts.filter((fact) => fact.value.trim());
+  const specs = landSpecFields.map((field) => ({
+    id: field.id,
+    label: t.land.specs[field.id],
+    value: landSpecValue(field.id),
+  }));
+  const extras = landFacts.filter((fact) => fact.label.trim() && fact.value.trim());
 
   return (
-    <section id="land" aria-labelledby="land-heading" className="border-t border-line py-24 md:py-32">
-      <Container>
-        <Reveal>
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-5">
-              <Eyebrow>{t.land.eyebrow}</Eyebrow>
-              <h2
-                id="land-heading"
-                className="mt-4 font-serif text-5xl font-medium leading-[1.02] tracking-[-0.02em] sm:text-6xl"
-              >
-                {t.land.heading}
-              </h2>
-            </div>
-            <div className="lg:col-span-7">
-              <p className="max-w-xl text-ink/85">{t.land.body}</p>
-              {facts.length > 0 ? (
-                <dl className="mt-10">
-                  {facts.map((fact) => (
-                    <div key={fact.label} className="border-t border-line py-6">
-                      <dt className="text-[0.72rem] uppercase tracking-[0.16em] text-muted">
-                        {fact.label}
-                      </dt>
-                      <dd className="mt-2 font-serif text-2xl leading-snug text-charcoal sm:text-3xl">
-                        {fact.value}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              ) : (
-                <p className="mt-8 border-t border-line pt-6 text-muted">{t.land.empty}</p>
-              )}
-              {amenities.length > 0 ? (
-                <div className="mt-10 border-t border-line pt-6">
-                  <h3 className="text-[0.72rem] uppercase tracking-[0.16em] text-muted">
-                    {t.land.noted}
-                  </h3>
-                  <ul className="mt-4 space-y-2">
-                    {amenities.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-            </div>
+    <section id="land" aria-labelledby="land-heading" className="bg-cream">
+      <div className="mx-auto max-w-[1240px] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-4">
+            <Eyebrow tone="gold">{t.land.eyebrow}</Eyebrow>
+            <h2
+              id="land-heading"
+              className="mt-4 font-serif text-3xl font-bold leading-tight text-olive-deep sm:text-4xl"
+            >
+              {t.land.heading}
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-ink sm:text-lg">{t.land.body}</p>
+            <p className="mt-4 border-l-4 border-bronze bg-paper px-4 py-3 text-base text-ink">
+              {t.land.empty}
+            </p>
+            <figure className="mt-6">
+              <PlainPhoto
+                src={photos.aerial.src}
+                alt={photos.aerial.alt}
+                sizes="(min-width: 1024px) 380px, 100vw"
+                className="aspect-[4/3] min-h-[200px] w-full border-4 border-olive-deep"
+              />
+              <figcaption className="bg-olive-deep px-3 py-2 text-sm font-semibold text-ivory">
+                {t.gallery.categories.Surroundings}
+              </figcaption>
+            </figure>
           </div>
-        </Reveal>
-      </Container>
+
+          <div className="border-4 border-gold bg-paper lg:col-span-8">
+            <div className="flex flex-wrap items-end justify-between gap-3 bg-olive-deep px-5 py-4 text-ivory">
+              <h3 className="font-serif text-2xl font-bold">{t.land.noted}</h3>
+              <p className="text-sm font-semibold text-gold">{t.intro.italicNote}</p>
+            </div>
+            <dl>
+              {specs.map((spec, index) => (
+                <div
+                  key={spec.id}
+                  className={`grid gap-1 px-5 py-3.5 sm:grid-cols-[14rem_1fr] sm:items-baseline sm:gap-6 ${
+                    index % 2 === 0 ? "bg-paper" : "bg-ivory"
+                  }`}
+                >
+                  <dt className="text-base font-semibold text-olive-deep">{spec.label}</dt>
+                  <dd className="text-lg">
+                    <Value value={spec.value} fallback={t.pending} />
+                  </dd>
+                </div>
+              ))}
+              {extras.map((fact) => (
+                <div
+                  key={fact.label}
+                  className="grid gap-1 border-t border-line bg-mint px-5 py-3.5 sm:grid-cols-[14rem_1fr] sm:gap-6"
+                >
+                  <dt className="text-base font-semibold text-olive-deep">{fact.label}</dt>
+                  <dd className="text-lg">{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+            {amenities.length > 0 ? (
+              <ul className="space-y-2 border-t-4 border-bronze px-5 py-4">
+                {amenities.map((item) => (
+                  <li key={item} className="text-base">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

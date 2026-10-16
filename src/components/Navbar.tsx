@@ -65,41 +65,37 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
           solid
-            ? "border-b border-line bg-ivory text-charcoal"
+            ? "bg-olive-deep text-ivory"
             : "border-b border-transparent bg-transparent text-ivory"
         }`}
       >
-        <div className="mx-auto flex h-16 max-w-[1360px] items-center justify-between gap-4 px-5 sm:h-[4.5rem] sm:px-8">
+        <div className="mx-auto flex h-[4.25rem] max-w-[1240px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <Link
             href="/#top"
-            className="min-w-0 leading-none"
+            className="min-w-0 leading-tight"
             aria-label={`${company.legalName}, ${t.nav.home}`}
             onClick={() => setOpen(false)}
           >
-            <span className="block font-serif text-[1.35rem] tracking-[0.12em]">
-              AVENZA
-            </span>
-            <span className="mt-1 block text-[0.62rem] uppercase tracking-[0.28em]">
-              Realtech
-            </span>
+            <span className="block font-serif text-xl font-bold tracking-wide text-white">AVENZA</span>
+            <span className="block text-sm font-semibold tracking-wide text-gold">Realtech</span>
           </Link>
 
-          <nav className="hidden items-center gap-8 lg:flex" aria-label={t.nav.primary}>
+          <nav className="hidden items-center gap-6 lg:flex" aria-label={t.nav.primary}>
             {navigation.map((item, index) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-[0.95rem] text-current/80 transition-colors hover:text-current"
+                className="text-base font-semibold text-ivory/90 transition-colors hover:text-gold"
               >
                 {navLabels[index]}
               </Link>
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
-            <LanguageButton />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <LanguageButton className="border-ivory/40 text-ivory" />
             <div className="hidden sm:block">
-              <Link href="/#contact" className={buttonClass("primary")}>
+              <Link href="/#contact" className={buttonClass("secondary")}>
                 {t.nav.enquireNow}
               </Link>
             </div>
@@ -111,33 +107,34 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
               onClick={() => setOpen((value) => !value)}
             >
               <span className="sr-only">{open ? t.nav.closeMenu : t.nav.openMenu}</span>
-              <span className="relative block h-3 w-5" aria-hidden="true">
+              <span className="relative block h-3.5 w-6" aria-hidden="true">
                 <span
-                  className={`absolute left-0 h-px w-5 bg-current transition-transform ${open ? "top-1.5 rotate-45" : "top-0"}`}
+                  className={`absolute left-0 h-0.5 w-6 bg-current transition-transform ${open ? "top-1.5 rotate-45" : "top-0"}`}
                 />
                 <span
-                  className={`absolute left-0 top-1.5 h-px w-5 bg-current ${open ? "opacity-0" : ""}`}
+                  className={`absolute left-0 top-1.5 h-0.5 w-6 bg-current ${open ? "opacity-0" : ""}`}
                 />
                 <span
-                  className={`absolute left-0 h-px w-5 bg-current transition-transform ${open ? "top-1.5 -rotate-45" : "top-3"}`}
+                  className={`absolute left-0 h-0.5 w-6 bg-current transition-transform ${open ? "top-1.5 -rotate-45" : "top-3"}`}
                 />
               </span>
             </button>
           </div>
         </div>
+        <div className="h-1.5 bg-bronze" aria-hidden="true" />
       </header>
 
       <div
         id="mobile-navigation"
         hidden={!open}
-        className="fixed inset-x-0 bottom-0 top-16 z-40 bg-ivory text-charcoal lg:hidden"
+        className="fixed inset-x-0 bottom-0 top-[4.65rem] z-40 overflow-y-auto bg-ivory text-charcoal lg:hidden"
       >
-        <nav className="flex h-full flex-col px-6 py-8" aria-label={t.nav.mobile}>
+        <nav className="flex flex-col px-5 py-6" aria-label={t.nav.mobile}>
           {navigation.map((item, index) => (
             <Link
               key={item.href}
               href={item.href}
-              className="border-b border-line py-4 font-serif text-4xl"
+              className="border-b border-line py-4 text-2xl font-semibold"
               onClick={() => setOpen(false)}
             >
               {navLabels[index]}
@@ -145,7 +142,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
           ))}
           <Link
             href="/#contact"
-            className={`${buttonClass("primary")} mt-8`}
+            className={`${buttonClass("primary")} mt-6`}
             onClick={() => setOpen(false)}
           >
             {t.nav.enquireNow}
@@ -154,12 +151,12 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
       </div>
 
       <div
-        className={`fixed inset-x-0 bottom-0 z-30 border-t border-line bg-ivory p-3 sm:hidden ${
+        className={`fixed inset-x-0 bottom-0 z-30 border-t-4 border-gold bg-ivory p-3 sm:hidden ${
           open || hideEnquire ? "hidden" : ""
         }`}
       >
         <Link href="/#contact" className={`${buttonClass("primary")} w-full`}>
-          {t.nav.enquire}
+          {t.hero.schedule}
         </Link>
       </div>
     </>

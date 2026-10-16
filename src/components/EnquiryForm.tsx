@@ -1,8 +1,9 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
-import { company, contact, hasText, whatsappHref } from "@/content/site";
+import { company, contact, hasText, photos, whatsappHref } from "@/content/site";
 import { useI18n } from "@/components/Language";
+import { PlainPhoto } from "@/components/PlainPhoto";
 import { buttonClass } from "@/components/ui";
 import type { Messages } from "@/content/messages";
 
@@ -143,47 +144,57 @@ export function EnquiryForm() {
   };
 
   const inputClass =
-    "mt-2 w-full border border-line bg-paper px-3 py-3 text-charcoal outline-none transition-colors focus:border-olive";
+    "mt-2 w-full border-2 border-line bg-ivory px-3 py-3 text-base text-charcoal outline-none transition-colors focus:border-olive";
 
   return (
-    <section id="contact" className="scroll-mt-24 py-24 md:py-32 lg:py-40">
-      <div className="mx-auto grid max-w-[1120px] gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-5">
-          <p className="text-[0.72rem] uppercase tracking-[0.22em] text-bronze">{copy.eyebrow}</p>
-          <h2 className="mt-4 font-serif text-5xl font-medium leading-[1.02] tracking-[-0.02em] sm:text-6xl">
-            {copy.heading}
-          </h2>
-          <p className="mt-6 text-ink/85">{copy.body}</p>
-
-          <div className="mt-10 border-t border-line pt-6 text-sm">
-            <p className="text-[0.72rem] uppercase tracking-[0.16em] text-muted">{copy.office}</p>
-            <p className="mt-2">{t.facts.registeredOffice}</p>
+    <section id="contact" className="scroll-mt-24 bg-cream">
+      <div className="mx-auto grid max-w-[1240px] lg:grid-cols-12">
+        <div className="bg-olive-deep lg:col-span-5">
+          <PlainPhoto
+            src={photos.road.src}
+            alt={photos.road.alt}
+            sizes="(min-width: 1024px) 520px, 100vw"
+            imageClassName="object-[center_72%]"
+            className="aspect-[16/10] w-full"
+          />
+          <div className="bg-olive-deep px-5 py-5 text-ivory sm:px-8 lg:px-10 lg:py-8">
+            <p className="text-sm font-semibold tracking-wide text-gold uppercase">{copy.office}</p>
+            <p className="mt-2 max-w-sm text-lg font-semibold leading-snug">{t.facts.registeredOffice}</p>
             {hasText(contact.phone) ? (
               <p className="mt-4">
-                <a className="underline decoration-line underline-offset-4" href={`tel:${contact.phone.replace(/\s/g, "")}`}>
+                <a className="underline decoration-white/40 underline-offset-4" href={`tel:${contact.phone.replace(/\s/g, "")}`}>
                   {contact.phone}
                 </a>
               </p>
             ) : null}
             {hasText(contact.email) ? (
               <p className="mt-2">
-                <a className="underline decoration-line underline-offset-4" href={`mailto:${contact.email}`}>
+                <a className="underline decoration-white/40 underline-offset-4" href={`mailto:${contact.email}`}>
                   {contact.email}
                 </a>
               </p>
             ) : null}
             {whatsapp ? (
-              <a href={whatsapp} className={`${buttonClass("secondary")} mt-6`} target="_blank" rel="noopener noreferrer">
+              <a href={whatsapp} className={`${buttonClass("secondary")} mt-6 w-fit`} target="_blank" rel="noopener noreferrer">
                 {copy.whatsapp}
               </a>
             ) : null}
           </div>
         </div>
 
-        <div className="lg:col-span-7">
+        <div className="px-4 py-10 sm:px-6 lg:col-span-7 lg:px-10 lg:py-14">
+          <p className="inline-flex bg-bronze px-3 py-1 text-sm font-semibold tracking-wide text-charcoal uppercase">
+            {t.visit.schedule}
+          </p>
+          <h2 className="mt-4 font-serif text-3xl font-bold leading-tight text-olive-deep sm:text-4xl">{t.visit.heading}</h2>
+          <p className="mt-3 text-lg font-semibold leading-snug text-charcoal">{copy.heading}</p>
+          <p className="mt-3 max-w-xl text-base leading-relaxed text-ink sm:text-lg">{t.visit.body}</p>
+          <p className="mt-2 max-w-xl text-base leading-relaxed text-muted">{copy.body}</p>
+
+          <div className="mt-6">
           {status === "sent" || status === "unsent" ? (
-            <div className="border border-line bg-paper p-8 sm:p-10" role="status">
-              <h3 className="font-serif text-4xl font-medium leading-tight">
+            <div className="border border-line border-t-8 border-t-bronze bg-paper p-6 text-charcoal sm:p-8" role="status">
+              <h3 className="font-serif text-3xl font-bold leading-tight text-olive-deep">
                 {status === "sent" ? copy.received : copy.notSent}
               </h3>
               <p className="mt-4 text-ink/85">
@@ -211,7 +222,7 @@ export function EnquiryForm() {
               </button>
             </div>
           ) : (
-            <form onSubmit={onSubmit} noValidate className="relative border border-line bg-paper p-6 sm:p-8">
+            <form onSubmit={onSubmit} noValidate className="relative border border-line border-t-8 border-t-bronze bg-paper p-5 text-charcoal sm:p-7">
               <div className="absolute -left-[9999px]" aria-hidden="true">
                 <label htmlFor="companyWebsite">{copy.office}</label>
                 <input
@@ -294,6 +305,7 @@ export function EnquiryForm() {
               </button>
             </form>
           )}
+          </div>
         </div>
       </div>
     </section>
@@ -319,7 +331,7 @@ function Field({
 }) {
   return (
     <div className={className}>
-      <label htmlFor={htmlFor} className="text-[0.72rem] uppercase tracking-[0.16em] text-muted">
+      <label htmlFor={htmlFor} className="text-base font-semibold text-charcoal">
         {label}
         {optional ? <span className="ml-2 normal-case tracking-normal">{optionalLabel}</span> : null}
       </label>

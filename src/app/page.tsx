@@ -8,9 +8,8 @@ import { LocationSection } from "@/components/LocationSection";
 import { PropertyDetails } from "@/components/PropertyDetails";
 import { PropertyGallery } from "@/components/PropertyGallery";
 import { PropertyOverview } from "@/components/PropertyOverview";
-import { SiteFrame } from "@/components/SiteFrame";
-import { SiteVisitCTA } from "@/components/SiteVisitCTA";
 import { WhyThisProperty } from "@/components/WhyThisProperty";
+import { SiteFrame } from "@/components/SiteFrame";
 import { listingJsonLd } from "@/content/seo";
 
 export const metadata: Metadata = {
@@ -41,7 +40,6 @@ export default function HomePage() {
         <DocumentsSection />
         <AboutCompany />
         <Directors />
-        <SiteVisitCTA />
         <EnquiryForm />
       </main>
     </SiteFrame>

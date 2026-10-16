@@ -1,43 +1,35 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Noto_Sans_Devanagari, Noto_Serif_Devanagari, Source_Sans_3 } from "next/font/google";
+import { Noto_Sans_Devanagari, Outfit, Source_Sans_3 } from "next/font/google";
 import { LanguageProvider } from "@/components/Language";
 import { organizationJsonLd } from "@/content/seo";
 import { rootMetadata } from "@/content/seo";
 import "./globals.css";
 
-const display = Cormorant_Garamond({
+const display = Outfit({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
+  weight: ["500", "600", "700"],
   display: "swap",
   variable: "--font-display",
 });
 
 const sans = Source_Sans_3({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "600", "700"],
   display: "swap",
   variable: "--font-source",
 });
 
 const hindiSans = Noto_Sans_Devanagari({
   subsets: ["devanagari"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-hindi-sans",
-});
-
-const hindiSerif = Noto_Serif_Devanagari({
-  subsets: ["devanagari"],
-  weight: ["400", "500", "600"],
-  display: "swap",
-  variable: "--font-hindi-serif",
 });
 
 export const metadata: Metadata = rootMetadata();
 
 export const viewport: Viewport = {
-  themeColor: "#1c1b18",
+  themeColor: "#0c3b2c",
   width: "device-width",
   initialScale: 1,
 };
@@ -48,7 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en-IN"
-      className={`${display.variable} ${sans.variable} ${hindiSans.variable} ${hindiSerif.variable} h-full`}
+      className={`${display.variable} ${sans.variable} ${hindiSans.variable} h-full`}
     >
       <body className="min-h-full bg-ivory font-sans text-charcoal antialiased">
         <script

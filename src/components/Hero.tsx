@@ -1,124 +1,102 @@
 "use client";
 
-import Image from "next/image";
-import { company, hasText, property } from "@/content/site";
-import { ImagePlate } from "@/components/ImagePlate";
+import { company, hasText, property, propertyGallery } from "@/content/site";
 import { useI18n } from "@/components/Language";
+import { PlainPhoto } from "@/components/PlainPhoto";
 import { Value, buttonClass } from "@/components/ui";
 
 export function Hero() {
   const { t } = useI18n();
-  const hasPhoto = hasText(property.heroImage.src);
   const named = hasText(property.name);
+  const price =
+    !property.price.trim() || property.price.trim() === "Price on request"
+      ? t.priceOnRequest
+      : property.price;
   const facts = [
     { label: t.hero.location, value: property.location },
     { label: t.hero.landArea, value: property.landArea },
     { label: t.hero.propertyType, value: property.propertyType },
-    { label: t.hero.availability, value: property.availability },
+    { label: t.hero.price, value: price },
   ];
+  const companions = propertyGallery.slice(1);
 
   return (
-    <section id="top" className="relative flex min-h-[100svh] flex-col bg-charcoal text-ivory">
-      {hasPhoto ? (
-        <>
-          <Image
-            src={property.heroImage.src}
-            alt={property.heroImage.alt || t.hero.photoTitle}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/80 to-charcoal/45" />
-        </>
-      ) : null}
-
-      <div className="relative z-10 mx-auto flex w-full max-w-[1360px] flex-1 flex-col justify-end px-5 pb-10 pt-28 sm:px-8 sm:pt-36 lg:pb-14">
-        <div className="grid items-end gap-12 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-7">
-            <p className="text-[0.72rem] uppercase tracking-[0.22em] text-ivory/60">
-              {company.legalName}
-            </p>
-            <h1
-              className={`mt-6 font-serif font-medium leading-[0.94] tracking-[-0.02em] ${
-                named
-                  ? "max-w-[12ch] text-[clamp(3.1rem,7vw,6.4rem)]"
-                  : "max-w-[16ch] text-[clamp(2.6rem,5.4vw,4.8rem)]"
-              }`}
-            >
-              {named ? property.name : t.hero.tagline}
-            </h1>
-            {named ? (
-              <p className="mt-6 max-w-xl font-serif text-2xl font-normal italic leading-snug text-ivory/80 sm:text-3xl">
-                {t.hero.tagline}
-              </p>
-            ) : (
-              <p className="mt-8 text-sm tracking-wide text-ivory/60">
-                {t.hero.landName}
-                <span className="mx-3 text-ivory/30" aria-hidden="true">
-                  /
-                </span>
-                {t.hero.toBeAnnounced}
-              </p>
-            )}
-
-            <dl className="mt-10 grid gap-6 sm:grid-cols-3">
-              {facts.slice(0, 3).map((fact) => (
-                <div key={fact.label}>
-                  <dt className="text-[0.68rem] uppercase tracking-[0.2em] text-ivory/45">
-                    {fact.label}
-                  </dt>
-                  <dd className="mt-1.5 text-base text-ivory">
-                    <Value
-                      value={fact.value}
-                      fallback={t.pending}
-                      pendingClassName="text-ivory/55"
-                    />
-                  </dd>
-                </div>
-              ))}
-            </dl>
-
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <a href="#contact" className={`${buttonClass("primary")} w-full sm:w-auto`}>
-                {t.hero.schedule}
-              </a>
-              <a href="#property" className={`${buttonClass("secondary-light")} w-full sm:w-auto`}>
-                {t.hero.viewDetails}
-              </a>
-            </div>
-          </div>
-
-          {hasPhoto ? null : (
-            <div className="lg:col-span-5">
-              <ImagePlate
-                title={t.hero.photoTitle}
-                note={t.hero.photoNote}
-                display="hero"
-                className="min-h-[380px] sm:min-h-[460px]"
+    <section id="top" className="bg-ivory text-charcoal">
+      <div className="relative h-[72vw] min-h-[260px] max-h-[420px] bg-olive-deep sm:h-[480px] sm:max-h-none lg:h-[100svh]">
+        <PlainPhoto
+          src={property.heroImage.src}
+          alt={property.heroImage.alt}
+          priority
+          sizes="100vw"
+          imageClassName="object-[center_62%]"
+          className="absolute inset-0 h-full w-full"
+        />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-olive-deep/75 to-transparent" />
+        <div className="absolute inset-x-4 bottom-4 hidden grid-cols-4 gap-2 sm:inset-x-auto sm:right-6 sm:w-[22rem] lg:right-8 lg:bottom-8 lg:grid lg:w-[26rem]">
+          {companions.map((photo) => (
+            <a key={photo.src} href="#gallery" aria-label={photo.alt} className="group block">
+              <PlainPhoto
+                src={photo.src}
+                alt=""
+                sizes="160px"
+                className="aspect-[4/3] w-full ring-2 ring-white/90 transition duration-200 group-hover:ring-gold"
               />
-            </div>
-          )}
+            </a>
+          ))}
         </div>
       </div>
 
-      <div className="relative z-10 border-t border-ivory/15">
-        <dl className="mx-auto grid max-w-[1360px] grid-cols-2 lg:grid-cols-4">
-          {facts.map((fact, index) => (
-            <div
-              key={fact.label}
-              className={`px-5 py-5 sm:px-8 ${index % 2 === 1 ? "border-l border-ivory/15" : ""} ${index > 0 ? "lg:border-l lg:border-ivory/15" : ""} ${index > 1 ? "border-t border-ivory/15 lg:border-t-0" : ""}`}
-            >
-              <dt className="text-[0.68rem] uppercase tracking-[0.18em] text-ivory/45">
-                {fact.label}
-              </dt>
-              <dd className="mt-2 text-[0.98rem]">
-                <Value value={fact.value} fallback={t.pending} pendingClassName="text-ivory/55" />
-              </dd>
-            </div>
-          ))}
-        </dl>
+      <div className="relative z-10 mx-auto -mt-10 max-w-[1240px] px-4 sm:-mt-16 sm:px-6 lg:-mt-80 lg:px-8">
+        <div className="max-w-xl bg-ivory px-5 py-6 sm:px-7 sm:py-7 lg:shadow-[0_18px_50px_rgba(12,59,44,0.22)]">
+          <p className="text-sm font-semibold tracking-[0.16em] text-bronze-ink uppercase">
+            {company.shortName}
+          </p>
+          <h1 className="mt-3 font-serif text-[2.15rem] font-bold leading-[1.12] text-olive-deep sm:text-5xl">
+            {named ? property.name.trim() : t.hero.tagline}
+          </h1>
+          {named ? (
+            <p className="mt-3 text-xl font-semibold leading-snug text-charcoal">{t.hero.tagline}</p>
+          ) : (
+            <p className="mt-3 inline-flex bg-bronze px-3 py-1 text-sm font-semibold text-charcoal">
+              {t.hero.toBeAnnounced}
+            </p>
+          )}
+          <p className="mt-4 text-base leading-relaxed text-ink sm:text-lg">{t.hero.lead}</p>
+
+          <dl className="mt-5 grid grid-cols-2 gap-px bg-line">
+            {facts.map((fact) => (
+              <div key={fact.label} className="bg-paper px-3 py-2.5">
+                <dt className="text-sm font-semibold text-bronze-ink">{fact.label}</dt>
+                <dd className="mt-0.5 text-base font-semibold text-olive-deep">
+                  <Value value={fact.value} fallback={t.pending} />
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <a href="#contact" className={buttonClass("secondary")}>
+              {t.hero.schedule}
+            </a>
+            <a href="#property" className={buttonClass("ghost")}>
+              {t.hero.viewDetails}
+            </a>
+          </div>
+        </div>
       </div>
+
+      <div className="mx-auto mt-4 grid max-w-[1240px] grid-cols-4 gap-2 px-4 sm:px-6 lg:hidden">
+        {companions.map((photo) => (
+          <a key={photo.src} href="#gallery" aria-label={photo.alt} className="block">
+            <PlainPhoto src={photo.src} alt="" sizes="25vw" className="aspect-[4/3] w-full" />
+          </a>
+        ))}
+      </div>
+
+      <p className="mx-auto max-w-[1240px] px-4 py-3 text-sm font-semibold text-olive-deep sm:px-6 lg:px-8">
+        {t.hero.photoCaption}
+        <span className="mt-0.5 block font-medium text-muted">{t.hero.photoNote}</span>
+      </p>
     </section>
   );
 }

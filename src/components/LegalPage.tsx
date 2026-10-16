@@ -12,19 +12,21 @@ export function LegalPage({
 }) {
   return (
     <SiteFrame>
-      <main className="px-5 pb-24 pt-28 sm:px-8 md:pt-36">
-        <article className="mx-auto max-w-2xl">
-          <p className="text-sm text-muted">
-            <Link href="/" className="hover:text-olive">
-              Avenza Realtech
-            </Link>
-          </p>
-          <h1 className="mt-6 font-serif text-5xl font-medium leading-[1.05] tracking-[-0.02em]">
-            {title}
-          </h1>
-          <p className="mt-6 text-lg text-ink/85">{lede}</p>
-          <div className="mt-10 space-y-5 text-ink/90">{children}</div>
-        </article>
+      <main className="pb-24">
+        <div className="bg-olive-deep px-4 pb-10 pt-28 text-ivory sm:px-6 md:pt-32">
+          <article className="mx-auto max-w-3xl">
+            <p className="text-base">
+              <Link href="/" className="font-semibold text-gold hover:text-white">
+                Avenza Realtech
+              </Link>
+            </p>
+            <h1 className="mt-4 font-serif text-4xl font-bold leading-tight sm:text-5xl">{title}</h1>
+            <p className="mt-4 text-lg leading-relaxed text-ivory/95">{lede}</p>
+          </article>
+        </div>
+        <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+          <div className="space-y-5 border-l-4 border-bronze pl-5 text-lg leading-relaxed text-ink">{children}</div>
+        </div>
       </main>
     </SiteFrame>
   );

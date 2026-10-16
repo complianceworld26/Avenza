@@ -3,15 +3,12 @@ import { hasText } from "@/content/site";
 export function Container({
   children,
   className = "",
-  width = "default",
 }: {
   children: React.ReactNode;
   className?: string;
-  width?: "default" | "wide";
 }) {
-  const max = width === "wide" ? "max-w-[1360px]" : "max-w-[1120px]";
   return (
-    <div className={`mx-auto w-full ${max} px-5 sm:px-8 ${className}`}>
+    <div className={`mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-8 ${className}`}>
       {children}
     </div>
   );
@@ -19,14 +16,23 @@ export function Container({
 
 export function Eyebrow({
   children,
+  tone = "green",
   className = "",
 }: {
   children: React.ReactNode;
+  tone?: "green" | "saffron" | "gold" | "cream";
   className?: string;
 }) {
+  const tones = {
+    green: "bg-olive text-white",
+    saffron: "bg-bronze text-charcoal",
+    gold: "bg-gold text-charcoal",
+    cream: "bg-ivory text-olive-deep",
+  };
+
   return (
     <p
-      className={`text-[0.72rem] uppercase tracking-[0.22em] text-bronze ${className}`}
+      className={`inline-flex items-center px-3 py-1 text-sm font-semibold tracking-wide uppercase ${tones[tone]} ${className}`}
     >
       {children}
     </p>
@@ -36,7 +42,7 @@ export function Eyebrow({
 export function Value({
   value,
   fallback = "To be confirmed",
-  pendingClassName = "italic text-muted",
+  pendingClassName = "font-semibold italic text-bronze-ink",
 }: {
   value: string;
   fallback?: string;
@@ -49,19 +55,19 @@ export function Value({
 }
 
 const buttonBase =
-  "inline-flex items-center justify-center px-6 py-3.5 text-[0.98rem] tracking-wide transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px]";
+  "inline-flex min-h-12 items-center justify-center px-5 py-3 text-base font-semibold leading-snug transition-colors duration-200";
 
 export function buttonClass(
   variant: "primary" | "secondary" | "secondary-light" | "ghost",
 ) {
   if (variant === "primary") {
-    return `${buttonBase} bg-olive text-ivory hover:bg-olive-deep focus-visible:outline-bronze`;
+    return `${buttonBase} bg-olive text-white hover:bg-[#0a6336] focus-visible:outline-gold`;
+  }
+  if (variant === "secondary") {
+    return `${buttonBase} bg-bronze text-charcoal hover:bg-[#c45f0c] focus-visible:outline-olive-deep`;
   }
   if (variant === "secondary-light") {
-    return `${buttonBase} border border-ivory/45 text-ivory hover:bg-ivory hover:text-charcoal focus-visible:outline-ivory`;
+    return `${buttonBase} border-2 border-ivory bg-transparent text-ivory hover:bg-ivory hover:text-olive-deep focus-visible:outline-gold`;
   }
-  if (variant === "ghost") {
-    return `${buttonBase} border border-line text-charcoal hover:border-charcoal focus-visible:outline-bronze`;
-  }
-  return `${buttonBase} border border-charcoal/25 text-charcoal hover:border-charcoal focus-visible:outline-bronze`;
+  return `${buttonBase} border-2 border-charcoal/25 bg-paper text-charcoal hover:border-olive hover:text-olive-deep focus-visible:outline-olive`;
 }

@@ -1,9 +1,8 @@
 "use client";
 
-import { locationInfo, mapEmbedUrl } from "@/content/site";
+import { hasText, locationInfo, mapEmbedUrl } from "@/content/site";
 import { useI18n } from "@/components/Language";
-import { Reveal } from "@/components/Reveal";
-import { Container, Eyebrow, Value } from "@/components/ui";
+import { Eyebrow, Value } from "@/components/ui";
 
 export function LocationSection() {
   const { t } = useI18n();
@@ -13,93 +12,89 @@ export function LocationSection() {
   const connectivity = locationInfo.connectivity.filter(
     (item) => item.name.trim() && item.detail.trim(),
   );
+  const known = hasText(address) || Boolean(map);
 
   return (
-    <section id="location" className="border-t border-line py-24 md:py-32 lg:py-40">
-      <Container>
-        <Reveal>
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
-            <div className="lg:col-span-5">
-              <Eyebrow>{t.location.eyebrow}</Eyebrow>
-              <h2 className="mt-4 font-serif text-5xl font-medium leading-[1.02] tracking-[-0.02em] sm:text-6xl">
-                {t.location.heading}
-              </h2>
-              <p className="mt-8 text-ink/85">{address ? t.location.known : t.location.pending}</p>
+    <section id="location" className="bg-earth">
+      <div className="mx-auto grid max-w-[1240px] gap-6 px-4 py-12 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-16">
+        <div className="bg-paper p-5 sm:p-7 lg:col-span-5">
+          <Eyebrow>{t.location.eyebrow}</Eyebrow>
+          <h2 className="mt-4 font-serif text-3xl font-bold leading-tight text-olive-deep sm:text-4xl">
+            {t.location.heading}
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-ink sm:text-lg">
+            {known ? t.location.known : t.location.pending}
+          </p>
 
-              <div className="mt-10 border-t border-line pt-6">
-                <p className="text-[0.72rem] uppercase tracking-[0.16em] text-muted">
-                  {t.location.propertyLocation}
-                </p>
-                <p className="mt-3 font-serif text-3xl leading-snug">
-                  <Value value={address} fallback={t.pending} />
-                </p>
-              </div>
+          <p className="mt-6 text-sm font-semibold uppercase tracking-wide text-bronze">
+            {t.location.propertyLocation}
+          </p>
+          <p className="mt-1 font-serif text-2xl font-bold leading-snug text-charcoal">
+            <Value value={address} fallback={t.pending} />
+          </p>
 
-              {nearby.length > 0 ? (
-                <div className="mt-10">
-                  <h3 className="text-[0.72rem] uppercase tracking-[0.16em] text-muted">
-                    {t.location.nearby}
-                  </h3>
-                  <ul className="mt-4 divide-y divide-line border-y border-line">
-                    {nearby.map((item) => (
-                      <li
-                        key={`${item.name}-${item.detail}`}
-                        className="flex items-baseline justify-between gap-6 py-3"
-                      >
-                        <span>{item.name}</span>
-                        <span className="text-right text-muted">{item.detail}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
+          <div className="mt-6 border-t-4 border-olive">
+            <h3 className="bg-olive px-4 py-2 text-base font-semibold text-white">{t.location.nearby}</h3>
+            {nearby.length > 0 ? (
+              <ul>
+                {nearby.map((item) => (
+                  <li
+                    key={`${item.name}-${item.detail}`}
+                    className="flex flex-col gap-1 border-b border-line px-4 py-3 sm:flex-row sm:justify-between"
+                  >
+                    <span className="font-semibold">{item.name}</span>
+                    <span className="text-ink">{item.detail}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="px-4 py-4 text-lg font-semibold italic text-bronze-ink">{t.pending}</p>
+            )}
 
-              {connectivity.length > 0 ? (
-                <div className="mt-10">
-                  <h3 className="text-[0.72rem] uppercase tracking-[0.16em] text-muted">
-                    {t.location.connectivity}
-                  </h3>
-                  <ul className="mt-4 divide-y divide-line border-y border-line">
-                    {connectivity.map((item) => (
-                      <li
-                        key={`${item.name}-${item.detail}`}
-                        className="flex items-baseline justify-between gap-6 py-3"
-                      >
-                        <span>{item.name}</span>
-                        <span className="text-right text-muted">{item.detail}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-            </div>
-
-            <div className="lg:col-span-7">
-              {map ? (
-                <iframe
-                  title={t.location.mapFrame}
-                  src={map}
-                  className="h-[420px] w-full border border-line lg:h-full lg:min-h-[520px]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              ) : (
-                <div className="flex h-[420px] flex-col justify-between border border-line bg-stone/70 p-6 sm:p-8 lg:min-h-[520px]">
-                  <p className="text-[0.72rem] uppercase tracking-[0.18em] text-muted">
-                    {t.location.map}
-                  </p>
-                  <div>
-                    <p className="max-w-[16ch] font-serif text-4xl leading-[1.05] text-charcoal sm:text-5xl">
-                      {t.location.mapTitle}
-                    </p>
-                    <p className="mt-4 max-w-md text-sm text-muted">{t.location.mapNote}</p>
-                  </div>
-                </div>
-              )}
-            </div>
+            <h3 className="bg-bronze px-4 py-2 text-base font-semibold text-charcoal">
+              {t.location.connectivity}
+            </h3>
+            {connectivity.length > 0 ? (
+              <ul>
+                {connectivity.map((item) => (
+                  <li
+                    key={`${item.name}-${item.detail}`}
+                    className="flex flex-col gap-1 border-b border-line px-4 py-3 sm:flex-row sm:justify-between"
+                  >
+                    <span className="font-semibold">{item.name}</span>
+                    <span className="text-ink">{item.detail}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="px-4 py-4 text-lg font-semibold italic text-bronze-ink">{t.pending}</p>
+            )}
           </div>
-        </Reveal>
-      </Container>
+        </div>
+
+        <div className="min-h-[420px] border-4 border-olive-deep bg-olive-deep lg:col-span-7">
+          {map ? (
+            <iframe
+              title={t.location.mapFrame}
+              src={map}
+              className="h-full min-h-[420px] w-full"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          ) : (
+            <div className="flex h-full min-h-[420px] flex-col justify-between px-6 py-8 text-ivory sm:px-8">
+              <p className="w-fit bg-bronze px-3 py-1 text-sm font-semibold text-charcoal">{t.location.map}</p>
+              <div>
+                <h3 className="max-w-xl font-serif text-3xl font-bold leading-tight sm:text-4xl">
+                  {t.location.mapTitle}
+                </h3>
+                <p className="mt-4 max-w-xl text-lg leading-relaxed text-ivory/95">{t.location.mapNote}</p>
+              </div>
+              <p className="border-t border-gold/60 pt-4 text-base text-ivory/90">{t.location.propertyLocation}</p>
+            </div>
+          )}
+        </div>
+      </div>
     </section>
   );
 }
