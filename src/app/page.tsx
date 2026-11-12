@@ -5,18 +5,31 @@ import { DocumentsSection } from "@/components/DocumentsSection";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { Hero } from "@/components/Hero";
 import { LocationSection } from "@/components/LocationSection";
+import { MaintenancePage } from "@/components/MaintenancePage";
 import { PropertyDetails } from "@/components/PropertyDetails";
 import { PropertyGallery } from "@/components/PropertyGallery";
 import { PropertyOverview } from "@/components/PropertyOverview";
 import { WhyThisProperty } from "@/components/WhyThisProperty";
 import { SiteFrame } from "@/components/SiteFrame";
+import { maintenanceMode } from "@/content/maintenance";
 import { listingJsonLd } from "@/content/seo";
+import { company } from "@/content/site";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/" },
-};
+export const metadata: Metadata = maintenanceMode
+  ? {
+      title: `Under maintenance | ${company.shortName}`,
+      description: `${company.legalName} website is under maintenance.`,
+      robots: { index: false, follow: false },
+    }
+  : {
+      alternates: { canonical: "/" },
+    };
 
 export default function HomePage() {
+  if (maintenanceMode) {
+    return <MaintenancePage />;
+  }
+
   const listing = listingJsonLd();
   const listingJson = listing
     ? JSON.stringify(listing).replace(/</g, "\\u003c")
